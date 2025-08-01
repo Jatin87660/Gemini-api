@@ -7,9 +7,6 @@ const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 dotenv.config();
 
-// ...rest of your code remains the same...
-
-
 const app = express();
 app.use(express.json());
 
@@ -101,12 +98,18 @@ app.post("/qa", async (req, res) => {
   }
 
   try {
-    const answers = await runQA(pdfUrl, questions);
-    res.json({ answers });
-  } catch (e) {
-    console.error(e);
-    res.status(500).json({ error: "Failed to process request" });
-  }
+  const answers = await runQA(pdfUrl, questions);
+
+  const cleanedAnswers = answers.map(ans =>
+    typeof ans === 'string' ? ans.replace(/\\n/g, '\n') : ans
+  );
+
+  res.json({ answers: cleanedAnswers });
+} catch (e) {
+  console.error(e);
+  res.status(500).json({ error: "Failed to process request" });
+}git add index.js
+
 });
 
 app.listen(PORT, () => {
