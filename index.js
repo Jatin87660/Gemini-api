@@ -108,8 +108,7 @@ app.post("/qa", async (req, res) => {
 } catch (e) {
   console.error(e);
   res.status(500).json({ error: "Failed to process request" });
-}git add index.js
-
+}
 });
 
 app.listen(PORT, () => {
