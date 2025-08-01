@@ -98,15 +98,8 @@ app.post("/qa", async (req, res) => {
   }
 
   try {
-   const answers = await runQA(pdfUrl, questions);
-
-// Make sure answers contain actual newlines, not escaped \n or <br>
-const formattedAnswers = answers.map(ans =>
-  typeof ans === 'string' ? ans.replace(/\\n/g, '\n') : ans
-);
-
-res.json({ answers: formattedAnswers });
-
+    const answers = await runQA(pdfUrl, questions);
+    res.json({ answers });
   } catch (e) {
     console.error(e);
     res.status(500).json({ error: "Failed to process request" });
